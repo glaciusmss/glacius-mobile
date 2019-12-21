@@ -5,41 +5,46 @@ import 'package:glacius_mobile/bloc/bloc.dart';
 import 'package:glacius_mobile/bloc/shop/shop.dart';
 import 'package:glacius_mobile/models/models.dart';
 import 'package:glacius_mobile/views/order/widgets/widgets.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'bloc/bloc.dart';
 
 class OrderPage extends StatefulWidget {
+  final WebsocketBloc websocketBloc;
+  final ShopBloc shopBloc;
+  final OrderBloc orderBloc;
+  String channelName;
+
+  OrderPage({
+    @required this.websocketBloc,
+    @required this.shopBloc,
+    @required this.orderBloc,
+  });
+
   @override
   _OrderPageState createState() => _OrderPageState();
 }
 
 class _OrderPageState extends State<OrderPage> {
-  final GlobalKey<AnimatedListState> _listAnimationKey = GlobalKey();
-  WebsocketBloc _websocketBloc;
-  String channelName;
+  RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
     super.initState();
 
-    _websocketBloc = BlocProvider.of<WebsocketBloc>(context);
-    final ShopBloc shopBloc = BlocProvider.of<ShopBloc>(context);
-    final OrderBloc orderBloc = BlocProvider.of<OrderBloc>(context);
+    widget.channelName = 'App.Shop.' + widget.shopBloc.getMyShop().id.toString();
 
-    channelName = 'App.Shop.' + shopBloc.getMyShop().id.toString();
-
-    if (orderBloc.state is! OrdersLoaded) {
-      orderBloc.add(LoadOrders());
+    if (widget.orderBloc.state is! OrdersLoaded) {
+      widget.orderBloc.add(LoadOrders());
     }
 
-    if (_websocketBloc.state is WebsocketReady) {
-      _websocketBloc.add(ConnectPrivateChannel(
-        channelName: channelName,
+    if (widget.websocketBloc.state is WebsocketReady) {
+      widget.websocketBloc.add(ConnectPrivateChannel(
+        channelName: widget.channelName,
         notificationListener: (Map<String, dynamic> data) {
-          BlocProvider.of<OrderBloc>(context).add(
+          widget.orderBloc.add(
             StoreOrder(
               order: Order.fromJson(data['order']),
-              animationKey: _listAnimationKey,
             ),
           );
         },
@@ -49,7 +54,8 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   void dispose() {
-    _websocketBloc.add(LeaveChannel(channelName: channelName));
+    widget.websocketBloc.add(LeaveChannel(channelName: widget.channelName));
+    _refreshController.dispose();
 
     super.dispose();
   }
@@ -69,62 +75,44 @@ class _OrderPageState extends State<OrderPage> {
       body: BlocBuilder<OrderBloc, OrderState>(
         builder: (context, state) {
           if (state is OrdersLoaded) {
-            return AnimatedList(
-              key: _listAnimationKey,
-              initialItemCount: state.orders.length,
-              itemBuilder: (context, index, animation) {
-                return SizeTransition(
-                  sizeFactor: animation,
-                  child: Column(
-                    children: <Widget>[
-                      Material(
-                        color: state.updatedOrderIds
-                                .contains(state.orders[index].id)
+            return SmartRefresher(
+              controller: _refreshController,
+              header: ClassicHeader(),
+              onRefresh: () {
+                widget.orderBloc.add(
+                  RefreshOrders(refreshController: _refreshController),
+                );
+              },
+              child: ListView.separated(
+                itemCount: state.orders.length,
+                separatorBuilder: (context, index) {
+                  return Divider(height: 0.0);
+                },
+                itemBuilder: (context, index) {
+                  return Material(
+                    color:
+                        state.updatedOrderIds.contains(state.orders[index].id)
                             ? Colors.lightBlue[50]
                             : null,
-                        child: ListTile(
-                          title: Row(
-                            children: <Widget>[
-                              Text('#' + state.orders[index].id.toString()),
-                              SizedBox(width: 10.0),
-                              Text(state.orders[index].totalPrice.toString()),
-                            ],
-                          ),
-                          subtitle:
-                              Text(state.orders[index].createdAt.toString()),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () {
-                            BlocProvider.of<OrderBloc>(context).add(
-                              MarkOrderAsRead(orderId: state.orders[index].id),
-                            );
-                          },
-                        ),
+                    child: ListTile(
+                      title: Row(
+                        children: <Widget>[
+                          Text('#' + state.orders[index].id.toString()),
+                          SizedBox(width: 10.0),
+                          Text(state.orders[index].totalPrice.toString()),
+                        ],
                       ),
-                      Divider(height: 0.0),
-                    ],
-                  ),
-                );
-              },
-            );
-            return ListView.separated(
-              itemCount: state.orders.length,
-              separatorBuilder: (context, index) {
-                return Divider(height: 0.0);
-              },
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                    children: <Widget>[
-                      Text('#' + state.orders[index].id.toString()),
-                      SizedBox(width: 10.0),
-                      Text(state.orders[index].totalPrice.toString()),
-                    ],
-                  ),
-                  subtitle: Text(state.orders[index].createdAt.toString()),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                  onTap: () {},
-                );
-              },
+                      subtitle: Text(state.orders[index].createdAt.toString()),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      onTap: () {
+                        widget.orderBloc.add(
+                          MarkOrderAsRead(orderId: state.orders[index].id),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             );
           }
 

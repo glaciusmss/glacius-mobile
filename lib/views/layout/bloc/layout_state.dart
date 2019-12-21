@@ -12,7 +12,7 @@ abstract class LayoutState extends Equatable {
     HomePage(),
     OrderPageBuilder(),
     ProductPageBuilder(),
-    ProfilePage(),
+    ProfilePageBuilder(),
   ];
 
   LayoutState({@required this.selectedPageIndex});

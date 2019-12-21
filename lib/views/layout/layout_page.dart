@@ -6,6 +6,14 @@ import 'package:glacius_mobile/views/layout/bloc/bloc.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 
 class LayoutPage extends StatefulWidget {
+  final UniversalLinkBloc universalLinkBloc;
+  final LayoutBloc layoutBloc;
+
+  const LayoutPage({
+    @required this.universalLinkBloc,
+    @required this.layoutBloc,
+  });
+
   @override
   _LayoutPageState createState() => _LayoutPageState();
 }
@@ -16,8 +24,7 @@ class _LayoutPageState extends State<LayoutPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<UniversalLinkBloc>(context)
-          .add(CheckIfAppCameFromLinks());
+      widget.universalLinkBloc.add(CheckIfAppCameFromLinks());
     });
   }
 
@@ -30,8 +37,7 @@ class _LayoutPageState extends State<LayoutPage> {
           bottomNavigationBar: TitledBottomNavigationBar(
             currentIndex: layoutState.selectedPageIndex,
             onTap: (index) {
-              BlocProvider.of<LayoutBloc>(context)
-                  .add(ChangeTab(pageIndex: index));
+              widget.layoutBloc.add(ChangeTab(pageIndex: index));
             },
             items: <TitledNavigationBarItem>[
               TitledNavigationBarItem(

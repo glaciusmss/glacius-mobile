@@ -42,7 +42,7 @@ packages:
       name: basic_utils
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.2"
   bloc:
     dependency: transitive
     description:
@@ -225,6 +225,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1"
+  firebase_messaging:
+    dependency: "direct main"
+    description:
+      name: firebase_messaging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.9"
   fixnum:
     dependency: transitive
     description:
@@ -284,7 +291,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5e272c460f64813521799aeffa188e5964aea3e1"
+      resolved-ref: "9c7ac0da8f01ceb40430da58397bdb31968ca5b1"
       url: "https://github.com/pichillilorenzo/flutter_inappwebview"
     source: git
     version: "3.0.0"
@@ -440,7 +447,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "30699368866c18a49ec89fa72326940e212b1797"
+      resolved-ref: f9b02445f5157e73fbf6a902695847a310228544
       url: "https://github.com/heywhy/echo"
     source: git
     version: "0.2.1"
@@ -584,6 +591,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
+  pull_to_refresh:
+    dependency: "direct main"
+    description:
+      name: pull_to_refresh
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.7"
   quiver:
     dependency: transitive
     description:

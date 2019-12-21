@@ -1,11 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glacius_mobile/bloc/bloc.dart';
-import 'package:glacius_mobile/views/order/order.dart';
+import 'package:glacius_mobile/views/profile/profile.dart';
 
-import 'bloc/bloc.dart';
-
-class OrderPageBuilder extends StatelessWidget {
+class ProfilePageBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _BindBlocProvider(
@@ -41,10 +39,8 @@ class _InjectBlocListener extends StatelessWidget {
 class _InjectBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return OrderPage(
-      websocketBloc: BlocProvider.of<WebsocketBloc>(context),
-      shopBloc: BlocProvider.of<ShopBloc>(context),
-      orderBloc: BlocProvider.of<OrderBloc>(context),
+    return ProfilePage(
+      authBloc: BlocProvider.of<AuthBloc>(context),
     );
   }
 }

@@ -16,12 +16,26 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   @override
   Stream<OrderState> mapEventToState(OrderEvent event) async* {
-    if (event is LoadOrders) {
-      yield OrdersLoading();
+    if (event is LoadOrders || event is RefreshOrders) {
+      if (event is LoadOrders) {
+        yield OrdersLoading();
+      }
       List<Order> orders = await orderRepository.getOrders(
         shopId: shopBloc.getMyShop().id,
       );
-      yield OrdersLoaded(orders: orders.reversed.toList());
+
+      //add to updatedOrderIds
+      List<int> updatedOrderIds = getUpdatedOrderIds(orders);
+
+      yield OrdersLoaded(
+        orders: orders.reversed.toList(),
+        updatedOrderIds: updatedOrderIds,
+      );
+
+      //complete refresh controller
+      if (event is RefreshOrders) {
+        event.refreshController.refreshCompleted();
+      }
     }
 
     if (event is StoreOrder) {
@@ -45,8 +59,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         if (!isOrderFound) {
           newUpdatedOrderIds.add(event.order.id);
           newOrders.insert(0, event.order);
-          //animate the item added if key present
-          event.animationKey?.currentState?.insertItem(0);
         }
 
         yield OrdersLoaded(
@@ -72,5 +84,33 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         );
       }
     }
+  }
+
+  List<int> getUpdatedOrderIds(List<Order> newOrders) {
+    if (state is OrdersLoaded) {
+      OrdersLoaded previousState = (state as OrdersLoaded);
+      List<int> newUpdatedOrderIds = List<int>.from(
+        previousState.updatedOrderIds,
+      );
+
+      List<int> newProcessedOrderIds = newOrders
+          .where(
+            (newOrder) => !previousState.orders
+                .map((previousOrder) => previousOrder.id)
+                .contains(newOrder.id),
+          )
+          .map((newOrder) => newOrder.id)
+          .toList();
+
+      newProcessedOrderIds.forEach((orderId) {
+        if (!newUpdatedOrderIds.contains(orderId)) {
+          newUpdatedOrderIds.add(orderId);
+        }
+      });
+
+      return newUpdatedOrderIds;
+    }
+
+    return [];
   }
 }

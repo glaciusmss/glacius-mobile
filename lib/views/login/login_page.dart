@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:glacius_mobile/views/login/bloc/bloc.dart';
 import 'package:glacius_mobile/views/login/widgets/login_button.dart';
 
 import 'widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
+  final LoginBloc loginBloc;
+
+  const LoginPage({@required this.loginBloc});
+
   @override
   State createState() => _LoginPage();
 }
@@ -71,9 +77,9 @@ class _LoginPage extends State<LoginPage> {
                   ),
                   EmailField(),
                   SizedBox(height: 10.0),
-                  PasswordField(fbKey: _fbKey),
+                  PasswordField(fbKey: _fbKey, loginBloc: BlocProvider.of<LoginBloc>(context)),
                   SizedBox(height: 30.0),
-                  LoginButton(fbKey: _fbKey),
+                  LoginButton(fbKey: _fbKey, loginBloc: BlocProvider.of<LoginBloc>(context)),
                   SizedBox(height: 10.0),
                   SizedBox(
                     width: double.infinity,

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:glacius_mobile/models/models.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 abstract class OrderEvent extends Equatable {
   const OrderEvent();
@@ -12,14 +13,22 @@ abstract class OrderEvent extends Equatable {
 
 class LoadOrders extends OrderEvent {}
 
-class StoreOrder extends OrderEvent {
-  final Order order;
-  final GlobalKey<AnimatedListState> animationKey;
+class RefreshOrders extends OrderEvent {
+  final RefreshController refreshController;
 
-  const StoreOrder({@required this.order, this.animationKey});
+  const RefreshOrders({@required this.refreshController});
 
   @override
-  List<Object> get props => [order, animationKey];
+  List<Object> get props => [refreshController];
+}
+
+class StoreOrder extends OrderEvent {
+  final Order order;
+
+  const StoreOrder({@required this.order});
+
+  @override
+  List<Object> get props => [order];
 }
 
 class MarkOrderAsRead extends OrderEvent {

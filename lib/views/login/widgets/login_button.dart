@@ -6,8 +6,12 @@ import 'package:glacius_mobile/widgets/widgets.dart';
 
 class LoginButton extends StatefulWidget {
   final GlobalKey<FormBuilderState> _fbKey;
+  final LoginBloc loginBloc;
 
-  LoginButton({@required GlobalKey<FormBuilderState> fbKey}) : _fbKey = fbKey;
+  LoginButton({
+    @required GlobalKey<FormBuilderState> fbKey,
+    @required this.loginBloc,
+  }) : _fbKey = fbKey;
 
   @override
   _LoginButtonState createState() => _LoginButtonState();
@@ -17,7 +21,7 @@ class _LoginButtonState extends State<LoginButton> {
   void _login() {
     if (widget._fbKey.currentState.saveAndValidate()) {
       Map<String, dynamic> formValue = widget._fbKey.currentState.value;
-      BlocProvider.of<LoginBloc>(context).add(
+      widget.loginBloc.add(
         BtnLoginPressed(
           email: formValue['email'],
           password: formValue['password'],

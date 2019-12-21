@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:glacius_mobile/views/shop/setup_shop/bloc/bloc.dart';
 
-import 'bloc/setup_shop_bloc.dart';
+import 'bloc/bloc.dart';
 
 class SetupShopPage extends StatefulWidget {
+  final SetupShopBloc setupShopBloc;
+
+  const SetupShopPage({@required this.setupShopBloc});
+
   @override
   _SetupShopPageState createState() => _SetupShopPageState();
 }
@@ -67,7 +70,7 @@ class _SetupShopPageState extends State<SetupShopPage> {
 
   void _createShop() {
     if (_fbKey.currentState.saveAndValidate()) {
-      BlocProvider.of<SetupShopBloc>(context).add(
+      widget.setupShopBloc.add(
         CreateShop(
           name: _fbKey.currentState.value['name'],
           description: _fbKey.currentState.value['description'],

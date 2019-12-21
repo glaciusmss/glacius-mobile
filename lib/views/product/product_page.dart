@@ -5,6 +5,10 @@ import 'package:glacius_mobile/views/product/bloc/bloc.dart';
 import 'package:glacius_mobile/widgets/widgets.dart';
 
 class ProductPage extends StatefulWidget {
+  final ProductBloc productBloc;
+
+  const ProductPage({@required this.productBloc});
+
   @override
   _ProductPageState createState() => _ProductPageState();
 }
@@ -14,8 +18,8 @@ class _ProductPageState extends State<ProductPage> {
   void initState() {
     super.initState();
 
-    if (BlocProvider.of<ProductBloc>(context).state is! ProductLoaded) {
-      BlocProvider.of<ProductBloc>(context).add(LoadProducts());
+    if (widget.productBloc.state is! ProductLoaded) {
+      widget.productBloc.add(LoadProducts());
     }
   }
 
@@ -85,7 +89,7 @@ class _ProductPageState extends State<ProductPage> {
           content: Text('$result'),
         ),
       );
-      BlocProvider.of<ProductBloc>(context).add(LoadProducts());
+      widget.productBloc.add(LoadProducts());
     }
   }
 }

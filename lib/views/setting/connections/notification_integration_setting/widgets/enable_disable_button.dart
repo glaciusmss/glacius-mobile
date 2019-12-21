@@ -6,10 +6,12 @@ import 'package:glacius_mobile/views/setting/connections/notification_integratio
 import 'package:glacius_mobile/widgets/widgets.dart';
 
 class EnableDisableButton extends StatefulWidget {
+  final NotificationChannelBloc notificationChannelBloc;
   final List<NotificationChannel> integrations;
   final String notificationChannel;
 
   EnableDisableButton({
+    @required this.notificationChannelBloc,
     @required this.integrations,
     @required this.notificationChannel,
   });
@@ -79,10 +81,6 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
   }
 
   void _onPressed() {
-    final notificationChannelBloc = BlocProvider.of<NotificationChannelBloc>(
-      context,
-    );
-
     if (_isNotificationChannelEnabled()) {
       //this is disable action
       showDialog(
@@ -96,7 +94,7 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
             confirmBtnColor: Theme.of(context).errorColor,
             confirmBtnText: 'Disable',
             onConfirmPressed: () {
-              notificationChannelBloc.add(
+              widget.notificationChannelBloc.add(
                 DisconnectChannel(
                   notificationChannel: widget.notificationChannel,
                 ),
@@ -106,7 +104,7 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
         },
       );
     } else {
-      notificationChannelBloc.add(ConnectChannel(
+      widget.notificationChannelBloc.add(ConnectChannel(
         notificationChannel: widget.notificationChannel,
       ));
     }

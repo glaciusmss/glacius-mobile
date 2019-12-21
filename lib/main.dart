@@ -18,69 +18,74 @@ Future main() async {
 
   runApp(
     MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider<UserRepository>(
-            create: (context) => UserRepository(),
+      providers: [
+        RepositoryProvider<UserRepository>(
+          create: (context) => UserRepository(),
+        ),
+        RepositoryProvider<ShopRepository>(
+          create: (context) => ShopRepository(),
+        ),
+        RepositoryProvider<OrderRepository>(
+          create: (context) => OrderRepository(),
+        ),
+        RepositoryProvider<MarketplaceRepository>(
+          create: (context) => MarketplaceRepository(),
+        ),
+        RepositoryProvider<OAuthRepository>(
+          create: (context) => OAuthRepository(),
+        ),
+        RepositoryProvider<NotificationRepository>(
+          create: (context) => NotificationRepository(),
+        ),
+        RepositoryProvider<ProductRepository>(
+          create: (context) => ProductRepository(),
+        ),
+        RepositoryProvider<ImageRepository>(
+          create: (context) => ImageRepository(),
+        )
+      ],
+      child: MultiBlocProvider(
+        providers: <BlocProvider>[
+          BlocProvider<UniversalLinkBloc>(
+            create: (context) {
+              return UniversalLinkBloc();
+            },
           ),
-          RepositoryProvider<ShopRepository>(
-            create: (context) => ShopRepository(),
+          BlocProvider<ShopBloc>(
+            create: (context) {
+              return ShopBloc(
+                shopRepository: RepositoryProvider.of<ShopRepository>(context),
+              );
+            },
           ),
-          RepositoryProvider<OrderRepository>(
-            create: (context) => OrderRepository(),
+          BlocProvider<NotificationBloc>(
+            create: (context) {
+              return NotificationBloc(
+                shopBloc: BlocProvider.of<ShopBloc>(context),
+              );
+            },
           ),
-          RepositoryProvider<MarketplaceRepository>(
-            create: (context) => MarketplaceRepository(),
+          BlocProvider<AuthBloc>(
+            create: (context) {
+              return AuthBloc(
+                shopBloc: BlocProvider.of<ShopBloc>(context),
+                notificationBloc: BlocProvider.of<NotificationBloc>(context),
+                userRepository: RepositoryProvider.of<UserRepository>(context),
+              )..add(AppStarted());
+            },
           ),
-          RepositoryProvider<OAuthRepository>(
-            create: (context) => OAuthRepository(),
-          ),
-          RepositoryProvider<NotificationRepository>(
-            create: (context) => NotificationRepository(),
-          ),
-          RepositoryProvider<ProductRepository>(
-            create: (context) => ProductRepository(),
-          ),
-          RepositoryProvider<ImageRepository>(
-            create: (context) => ImageRepository(),
+          BlocProvider<WebsocketBloc>(
+            create: (context) {
+              return WebsocketBloc(
+                authBloc: BlocProvider.of<AuthBloc>(context),
+                shopBloc: BlocProvider.of<ShopBloc>(context),
+              );
+            },
           )
         ],
-        child: MultiBlocProvider(
-          providers: <BlocProvider>[
-            BlocProvider<UniversalLinkBloc>(
-              create: (context) {
-                return UniversalLinkBloc();
-              },
-            ),
-            BlocProvider<ShopBloc>(
-              create: (context) {
-                return ShopBloc(
-                  shopRepository: RepositoryProvider.of<ShopRepository>(
-                    context,
-                  ),
-                );
-              },
-            ),
-            BlocProvider<AuthBloc>(
-              create: (context) {
-                return AuthBloc(
-                  shopBloc: BlocProvider.of<ShopBloc>(context),
-                  userRepository: RepositoryProvider.of<UserRepository>(
-                    context,
-                  ),
-                )..add(AppStarted());
-              },
-            ),
-            BlocProvider<WebsocketBloc>(
-              create: (context) {
-                return WebsocketBloc(
-                  authBloc: BlocProvider.of<AuthBloc>(context),
-                  shopBloc: BlocProvider.of<ShopBloc>(context),
-                );
-              },
-            )
-          ],
-          child: App(),
-        )),
+        child: App(),
+      ),
+    ),
   );
 }
 

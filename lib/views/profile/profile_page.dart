@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glacius_mobile/bloc/auth/auth.dart';
 import 'package:glacius_mobile/config/config.dart';
 import 'package:glacius_mobile/widgets/confirm_dialog.dart';
 
 class ProfilePage extends StatefulWidget {
+  final AuthBloc authBloc;
+
+  ProfilePage({@required this.authBloc});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -137,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
               'You will be returned to the login screen.',
             ),
             onConfirmPressed: () {
-              BlocProvider.of<AuthBloc>(context).add(LoggedOut());
+              widget.authBloc.add(LoggedOut());
             },
             confirmBtnColor: Theme.of(context).errorColor,
             confirmBtnText: 'Logout',

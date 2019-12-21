@@ -10,8 +10,13 @@ import 'package:pedantic/pedantic.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   UserRepository userRepository;
   ShopBloc shopBloc;
+  NotificationBloc notificationBloc;
 
-  AuthBloc({@required this.shopBloc, @required this.userRepository});
+  AuthBloc({
+    @required this.shopBloc,
+    @required this.notificationBloc,
+    @required this.userRepository,
+  });
 
   @override
   AuthState get initialState => AuthUninitialized();
@@ -39,10 +44,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     if (event is LoggedOut) {
       yield AuthLoading();
-      unawaited(this.userRepository.logout()); //fire and forget, not really important
+
+      //fire and forget, not really important
+      unawaited(this.userRepository.logout());
+
       Request().removeTokenFromAuthHeader();
       await this.userRepository.deleteToken();
+
+      this.notificationBloc.add(LeaveTopic(shop: shopBloc.getMyShop()));
       this.shopBloc.add(ResetShopBloc());
+
       yield AuthUnauthenticated();
     }
   }

@@ -6,8 +6,12 @@ import 'package:glacius_mobile/views/login/bloc/bloc.dart';
 
 class PasswordField extends StatefulWidget {
   final GlobalKey<FormBuilderState> _fbKey;
+  final LoginBloc loginBloc;
 
-  PasswordField({@required GlobalKey<FormBuilderState> fbKey}) : _fbKey = fbKey;
+  PasswordField({
+    @required GlobalKey<FormBuilderState> fbKey,
+    @required this.loginBloc,
+  }) : _fbKey = fbKey;
 
   @override
   State<StatefulWidget> createState() => _PasswordField();
@@ -42,10 +46,9 @@ class _PasswordField extends State<PasswordField> {
               errorText: 'Password field cannot be empty',
             ),
           ],
-
           onChanged: (value) {
             if (state is LoginFailure) {
-              BlocProvider.of<LoginBloc>(context).add(ResetLoginBloc());
+              widget.loginBloc.add(ResetLoginBloc());
             }
           },
           maxLines: 1,

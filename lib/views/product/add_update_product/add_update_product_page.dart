@@ -11,10 +11,15 @@ import 'package:glacius_mobile/widgets/widgets.dart';
 enum FormGroups { basic, pricing, inventory }
 
 class AddUpdateProductPage extends StatefulWidget {
+  final AddUpdateProductBloc addUpdateProductBloc;
   final CrudMode crudMode;
   final Product selectedProduct;
 
-  AddUpdateProductPage({@required this.crudMode, this.selectedProduct});
+  AddUpdateProductPage({
+    @required this.addUpdateProductBloc,
+    @required this.crudMode,
+    this.selectedProduct,
+  });
 
   @override
   _AddUpdateProductPageState createState() => _AddUpdateProductPageState();
@@ -76,77 +81,57 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AddUpdateProductBloc, AddUpdateProductState>(
-      listener: (context, state) {
-        if (state is AddUpdateProductFailure) {
-          print(state.error.toString());
-        }
-
-        if (state is AddUpdateProductSuccess) {
-          Navigator.of(context).pop(
-            widget.crudMode == CrudMode.create
-                ? 'Product Created'
-                : 'Product Updated',
-          );
-        }
-
-        if (state is AddUpdateProductSaving) {
-          //hide keyboard when submit
-          FocusScope.of(context).unfocus();
-        }
-      },
-      child: BlocBuilder<AddUpdateProductBloc, AddUpdateProductState>(
-        builder: (context, state) {
-          return LoadingOverlay(
-            show: (state is AddUpdateProductSaving),
-            child: Scaffold(
-              appBar: AppBar(
-                leading: CloseButton(),
-                title: Text(
-                  widget.crudMode == CrudMode.create
-                      ? 'Add Product'
-                      : 'Update Product',
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: _onSavePressed,
-                  )
+    return BlocBuilder<AddUpdateProductBloc, AddUpdateProductState>(
+      builder: (context, state) {
+        return LoadingOverlay(
+          show: (state is AddUpdateProductSaving),
+          child: Scaffold(
+            appBar: AppBar(
+              leading: CloseButton(),
+              title: Text(
+                widget.crudMode == CrudMode.create
+                    ? 'Add Product'
+                    : 'Update Product',
+              ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.check),
+                  onPressed: _onSavePressed,
+                )
+              ],
+            ),
+            body: FormBuilder(
+              key: _fbKey,
+              autovalidate: true,
+              initialValue: {
+                FormAttribute.name: widget.selectedProduct?.name,
+                FormAttribute.description:
+                    widget.selectedProduct?.description,
+                FormAttribute.images: widget.selectedProduct?.images ?? [],
+                FormAttribute.price:
+                    widget.selectedProduct?.productVariants?.first?.price,
+                FormAttribute.stock: widget
+                    .selectedProduct?.productVariants?.first?.stock
+                    ?.toString(),
+              },
+              child: ListView(
+                padding: EdgeInsets.all(10.0),
+                children: <Widget>[
+                  if (state is AddUpdateProductFailure)
+                    ErrorPanel(errorTxt: state.error.toString()),
+                  _basicFormGroup(),
+                  SizedBox(height: 10.0),
+                  _imageFormGroup(),
+                  SizedBox(height: 10.0),
+                  _priceFormGroup(),
+                  SizedBox(height: 10.0),
+                  _inventoryFormGroup(),
                 ],
               ),
-              body: FormBuilder(
-                key: _fbKey,
-                autovalidate: true,
-                initialValue: {
-                  FormAttribute.name: widget.selectedProduct?.name,
-                  FormAttribute.description:
-                      widget.selectedProduct?.description,
-                  FormAttribute.images: widget.selectedProduct?.images ?? [],
-                  FormAttribute.price:
-                      widget.selectedProduct?.productVariants?.first?.price,
-                  FormAttribute.stock: widget
-                      .selectedProduct?.productVariants?.first?.stock
-                      ?.toString(),
-                },
-                child: ListView(
-                  padding: EdgeInsets.all(10.0),
-                  children: <Widget>[
-                    if (state is AddUpdateProductFailure)
-                      ErrorPanel(errorTxt: state.error.toString()),
-                    _basicFormGroup(),
-                    SizedBox(height: 10.0),
-                    _imageFormGroup(),
-                    SizedBox(height: 10.0),
-                    _priceFormGroup(),
-                    SizedBox(height: 10.0),
-                    _inventoryFormGroup(),
-                  ],
-                ),
-              ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -320,11 +305,9 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
             ),
           ]);
       if (widget.crudMode == CrudMode.create) {
-        BlocProvider.of<AddUpdateProductBloc>(context)
-            .add(CreateProduct(product: product));
+        widget.addUpdateProductBloc.add(CreateProduct(product: product));
       } else if (widget.crudMode == CrudMode.update) {
-        BlocProvider.of<AddUpdateProductBloc>(context)
-            .add(UpdateProduct(product: product));
+        widget.addUpdateProductBloc.add(UpdateProduct(product: product));
       }
     }
   }

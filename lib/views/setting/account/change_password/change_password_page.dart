@@ -8,6 +8,10 @@ import 'package:glacius_mobile/widgets/widgets.dart';
 import 'bloc/bloc.dart';
 
 class ChangePasswordPage extends StatefulWidget {
+  final ChangePasswordBloc changePasswordBloc;
+
+  ChangePasswordPage({@required this.changePasswordBloc});
+
   @override
   _ChangePasswordPageState createState() => _ChangePasswordPageState();
 }
@@ -53,7 +57,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ErrorPanel(
                         errorTxt: state.error.toString(),
                         onDismissed: () {
-                          BlocProvider.of<ChangePasswordBloc>(context)
+                          widget.changePasswordBloc
                               .add(ResetChangePasswordBloc());
                         },
                       ),
@@ -102,7 +106,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   void _changePasswordAttempt() {
     if (_fbKey.currentState.saveAndValidate()) {
-      BlocProvider.of<ChangePasswordBloc>(context).add(
+      widget.changePasswordBloc.add(
         ChangePasswordAttempt(
           oldPassword: _fbKey.currentState.value['old_password'],
           password: _fbKey.currentState.value['password'],

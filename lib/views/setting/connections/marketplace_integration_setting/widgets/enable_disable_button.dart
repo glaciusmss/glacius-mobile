@@ -7,12 +7,14 @@ import 'package:glacius_mobile/views/setting/connections/marketplace_integration
 import 'package:glacius_mobile/widgets/widgets.dart';
 
 class EnableDisableButton extends StatefulWidget {
+  final OAuthBloc oAuthBloc;
   final List<Marketplace> integrations;
   final String marketplace;
   final String requiredFieldOnConnect;
   final String requiredFieldTitle;
 
   EnableDisableButton({
+    @required this.oAuthBloc,
     @required this.integrations,
     @required this.marketplace,
     this.requiredFieldOnConnect,
@@ -83,8 +85,6 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
   }
 
   void _onPressed() {
-    final oAuthBloc = BlocProvider.of<OAuthBloc>(context);
-
     if (_isMarketplaceEnabled()) {
       //this is disable action
       showDialog(
@@ -98,7 +98,7 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
             confirmBtnColor: Theme.of(context).errorColor,
             confirmBtnText: 'Disable',
             onConfirmPressed: () {
-              oAuthBloc.add(
+              widget.oAuthBloc.add(
                 DisconnectOAuth(marketplace: widget.marketplace),
               );
             },
@@ -128,7 +128,7 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
                 confirmBtnText: 'Connect',
                 onConfirmPressed: () {
                   if (_fbKey.currentState.saveAndValidate()) {
-                    oAuthBloc.add(
+                    widget.oAuthBloc.add(
                       ConnectOAuth(
                         marketplace: widget.marketplace,
                         data: {
@@ -146,7 +146,7 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
               );
             });
       } else {
-        oAuthBloc.add(ConnectOAuth(marketplace: widget.marketplace));
+        widget.oAuthBloc.add(ConnectOAuth(marketplace: widget.marketplace));
       }
     }
   }

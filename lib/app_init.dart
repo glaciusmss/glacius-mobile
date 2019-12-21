@@ -7,12 +7,7 @@ import 'package:glacius_mobile/views/shop/setup_shop/setup_shop.dart';
 import 'package:glacius_mobile/views/splash_screen.dart';
 import 'package:glacius_mobile/widgets/spinner.dart';
 
-class AppInit extends StatefulWidget {
-  @override
-  _AppInitState createState() => _AppInitState();
-}
-
-class _AppInitState extends State<AppInit> {
+class AppInit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ShopBloc, ShopState>(
@@ -20,6 +15,11 @@ class _AppInitState extends State<AppInit> {
         if (state is MyShopLoaded && state.myShop.isNotEmpty) {
           //setup echo
           BlocProvider.of<WebsocketBloc>(context).add(SetupEcho());
+
+          //setup firebase
+          BlocProvider.of<NotificationBloc>(context).add(
+            SetupFirebaseMessaging(),
+          );
 
           // main page
           SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -39,13 +39,11 @@ class _AppInitState extends State<AppInit> {
             BlocProvider.of<ShopBloc>(context).add(LoadMyShop());
             return BlocBuilder<ShopBloc, ShopState>(
               builder: (context, state) {
-                if (state is MyShopLoaded) {
-                  if (state.myShop.isEmpty) {
-                    SystemChrome.setEnabledSystemUIOverlays(
-                      SystemUiOverlay.values,
-                    );
-                    return SetupShopPageBuilder();
-                  }
+                if (state is MyShopLoaded && state.myShop.isEmpty) {
+                  SystemChrome.setEnabledSystemUIOverlays(
+                    SystemUiOverlay.values,
+                  );
+                  return SetupShopPageBuilder();
                 }
 
                 return Spinner.withScaffold(context);

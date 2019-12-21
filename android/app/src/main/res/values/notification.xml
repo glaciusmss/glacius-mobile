@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_id">glacius_default_channel</string>
+    <string name="channel_name">Default</string>
+    <string name="channel_description">Default</string>
+
+    <color name="notification_color">#b71c1c</color>
+</resources>
