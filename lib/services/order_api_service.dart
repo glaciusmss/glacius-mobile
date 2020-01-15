@@ -9,10 +9,13 @@ class OrderApiService {
     this._request = request ??= Request();
   }
 
-  Future<List<dynamic>> getOrders({@required int shopId}) async {
+  Future<Map<String, dynamic>> getOrders({
+    @required int shopId,
+    int page = 1,
+  }) async {
     Response res = await this._request.client.get(
       '/order',
-      queryParameters: {'shop_id': shopId},
+      queryParameters: {'shop_id': shopId, 'page': page},
     );
 
     return res.data;

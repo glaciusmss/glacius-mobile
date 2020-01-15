@@ -19,10 +19,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Stream<ProductState> mapEventToState(ProductEvent event) async* {
     if (event is LoadProducts) {
       yield ProductLoading();
-      List<Product> products = await productRepository.getProducts(
+
+      PaginatedData paginatedData = await productRepository.getProducts(
         shopId: shopBloc.getMyShop().id,
       );
-      yield ProductLoaded(products: products.reversed.toList());
+      List<Product> products = List.from(paginatedData.data)
+          .map((model) => Product.fromJson(model))
+          .toList();
+
+      yield ProductLoaded(products: products);
     }
   }
 }

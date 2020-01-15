@@ -11,8 +11,11 @@ class OrderRepository {
     this._orderApiService = orderApiService;
   }
 
-  Future<List<Order>> getOrders({@required int shopId}) async {
-    List<dynamic> data = await this._orderApiService.getOrders(shopId: shopId);
-    return data.map((model) => Order.fromJson(model)).toList();
+  Future<PaginatedData> getOrders({@required int shopId, int page}) async {
+    Map data = await this._orderApiService.getOrders(
+          shopId: shopId,
+          page: page,
+        );
+    return PaginatedData.fromJson(data);
   }
 }

@@ -20,6 +20,7 @@ class EchoHelper {
         headers: {
           'Authorization': 'Bearer ${token}',
           'Accept': 'application/json',
+          'X-REQUEST-FROM': 'mobile',
         },
       ),
       cluster: DotEnv().env['PUSHER_APP_CLUSTER'],

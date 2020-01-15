@@ -8,3 +8,4 @@ export 'notification_channel.dart';
 export 'product_variant.dart';
 export 'product.dart';
 export 'image.dart';
+export 'paginated_data.dart';

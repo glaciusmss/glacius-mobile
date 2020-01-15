@@ -32,7 +32,8 @@ class _OrderPageState extends State<OrderPage> {
   void initState() {
     super.initState();
 
-    widget.channelName = 'App.Shop.' + widget.shopBloc.getMyShop().id.toString();
+    widget.channelName =
+        'App.Shop.' + widget.shopBloc.getMyShop().id.toString();
 
     if (widget.orderBloc.state is! OrdersLoaded) {
       widget.orderBloc.add(LoadOrders());
@@ -78,9 +79,16 @@ class _OrderPageState extends State<OrderPage> {
             return SmartRefresher(
               controller: _refreshController,
               header: ClassicHeader(),
+              footer: ClassicFooter(),
+              enablePullUp: true,
               onRefresh: () {
                 widget.orderBloc.add(
                   RefreshOrders(refreshController: _refreshController),
+                );
+              },
+              onLoading: () {
+                widget.orderBloc.add(
+                  LoadMoreOrders(refreshController: _refreshController),
                 );
               },
               child: ListView.separated(

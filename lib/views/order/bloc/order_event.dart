@@ -22,6 +22,15 @@ class RefreshOrders extends OrderEvent {
   List<Object> get props => [refreshController];
 }
 
+class LoadMoreOrders extends OrderEvent {
+  final RefreshController refreshController;
+
+  const LoadMoreOrders({@required this.refreshController});
+
+  @override
+  List<Object> get props => [refreshController];
+}
+
 class StoreOrder extends OrderEvent {
   final Order order;
 

@@ -11,11 +11,12 @@ class ProductRepository {
     this._productApiService = productApiService;
   }
 
-  Future<List<Product>> getProducts({@required int shopId}) async {
-    List<dynamic> data = await this._productApiService.getProducts(
+  Future<PaginatedData> getProducts({@required int shopId, int page}) async {
+    Map data = await this._productApiService.getProducts(
           shopId: shopId,
+          page: page,
         );
-    return data.map((model) => Product.fromJson(model)).toList();
+    return PaginatedData.fromJson(data);
   }
 
   Future<void> createProduct({

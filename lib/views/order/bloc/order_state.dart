@@ -15,10 +15,15 @@ class OrdersLoading extends OrderState {}
 
 class OrdersLoaded extends OrderState {
   final List<Order> orders;
+  final Map<String, dynamic> paginationMeta;
   final List<int> updatedOrderIds;
 
-  OrdersLoaded({@required this.orders, this.updatedOrderIds = const []});
+  OrdersLoaded({
+    @required this.orders,
+    @required this.paginationMeta,
+    this.updatedOrderIds = const [],
+  });
 
   @override
-  List<Object> get props => [orders, updatedOrderIds];
+  List<Object> get props => [orders, paginationMeta, updatedOrderIds];
 }

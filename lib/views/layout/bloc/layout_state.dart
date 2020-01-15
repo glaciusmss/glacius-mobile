@@ -22,7 +22,7 @@ abstract class LayoutState extends Equatable {
 }
 
 class LayoutInitial extends LayoutState {
-  LayoutInitial() : super(selectedPageIndex: 2);
+  LayoutInitial() : super(selectedPageIndex: 1);
 }
 
 class LayoutPageChanged extends LayoutState {
