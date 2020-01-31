@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:glacius_mobile/views/home/home.dart';
 import 'package:glacius_mobile/views/order/order.dart';
 import 'package:glacius_mobile/views/product/product.dart';
-import 'package:glacius_mobile/views/profile/profile.dart';
+import 'package:glacius_mobile/views/account/account.dart';
 
 abstract class LayoutState extends Equatable {
   final int selectedPageIndex;
@@ -12,7 +12,7 @@ abstract class LayoutState extends Equatable {
     HomePage(),
     OrderPageBuilder(),
     ProductPageBuilder(),
-    ProfilePageBuilder(),
+    AccountPageBuilder(),
   ];
 
   LayoutState({@required this.selectedPageIndex});

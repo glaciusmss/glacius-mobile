@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glacius_mobile/mixin/mixin.dart';
-import 'package:glacius_mobile/views/setting/connections/widgets/widgets.dart';
+import 'package:shimmer/shimmer.dart';
 import 'widgets/widgets.dart';
 import 'bloc/bloc.dart';
 
@@ -42,53 +42,74 @@ class _MarketplaceIntegrationSettingPageState
           appBar: AppBar(title: Text('Marketplace Connection')),
           body: Container(
             margin: EdgeInsets.all(10.0),
-            child: (state is MarketplaceIntegrationSettingLoaded)
-                ? Column(
-                    children: <Widget>[
-                      ListTile(
-                        title: Text('Shopify'),
-                        trailing: EnableDisableButton(
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text('Shopify'),
+                  trailing: (state is MarketplaceIntegrationSettingLoaded)
+                      ? EnableDisableButton(
                           oAuthBloc: widget.oAuthBloc,
                           integrations: state.integrations,
                           marketplace: 'shopify',
                           requiredFieldTitle: 'Shopify shop name',
                           requiredFieldOnConnect: 'shopify_shop',
-                        ),
-                      ),
-                      ListTile(
-                        title: Text('EasyStore'),
-                        trailing: EnableDisableButton(
+                        )
+                      : _skeletonButton(),
+                ),
+                ListTile(
+                  title: Text('EasyStore'),
+                  trailing: (state is MarketplaceIntegrationSettingLoaded)
+                      ? EnableDisableButton(
                           oAuthBloc: widget.oAuthBloc,
                           integrations: state.integrations,
                           marketplace: 'easystore',
                           requiredFieldTitle: 'Easystore shop name',
                           requiredFieldOnConnect: 'easystore_shop',
-                        ),
-                      ),
-                      ListTile(
-                        title: Text('Shopee'),
-                        trailing: EnableDisableButton(
+                        )
+                      : _skeletonButton(),
+                ),
+                ListTile(
+                  title: Text('Shopee'),
+                  trailing: (state is MarketplaceIntegrationSettingLoaded)
+                      ? EnableDisableButton(
                           oAuthBloc: widget.oAuthBloc,
                           integrations: state.integrations,
                           marketplace: 'shopee',
-                        ),
-                      ),
-                      ListTile(
-                        title: Text('WooCommerce'),
-                        trailing: EnableDisableButton(
+                        )
+                      : _skeletonButton(),
+                ),
+                ListTile(
+                  title: Text('WooCommerce'),
+                  trailing: (state is MarketplaceIntegrationSettingLoaded)
+                      ? EnableDisableButton(
                           oAuthBloc: widget.oAuthBloc,
                           integrations: state.integrations,
                           marketplace: 'woocommerce',
                           requiredFieldTitle: 'WooCommerce store url',
                           requiredFieldOnConnect: 'woocommerce_store_url',
-                        ),
-                      ),
-                    ],
-                  )
-                : ConnectionSkeletonLoader(count: 4),
+                        )
+                      : _skeletonButton(),
+                ),
+              ],
+            ),
           ),
         );
       },
+    );
+  }
+
+  Widget _skeletonButton() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300],
+      highlightColor: Colors.grey[100],
+      child: Container(
+        height: 35.0,
+        width: 90.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

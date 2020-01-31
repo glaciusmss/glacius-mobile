@@ -7,3 +7,4 @@ export 'notification_api_service.dart';
 export 'shop_api_service.dart';
 export 'product_api_service.dart';
 export 'image_api_service.dart';
+export 'user_profile_api_service.dart';

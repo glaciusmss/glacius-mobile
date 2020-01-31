@@ -4,16 +4,20 @@ import 'package:glacius_mobile/services/services.dart';
 
 class UserRepository {
   UserApiService _userApiService;
+  UserProfileApiService _userProfileApiService;
   SecureStoreService _secureStoreService;
 
   UserRepository({
     UserApiService userApiService,
+    UserProfileApiService userProfileApiService,
     SecureStoreService secureStoreService,
   }) {
     userApiService ??= UserApiService();
+    userProfileApiService ??= UserProfileApiService();
     secureStoreService ??= SecureStoreService();
 
     this._userApiService = userApiService;
+    this._userProfileApiService = userProfileApiService;
     this._secureStoreService = secureStoreService;
   }
 
@@ -59,5 +63,17 @@ class UserRepository {
 
   Future<void> deleteToken() async {
     await this._secureStoreService.deleteToken();
+  }
+
+  Future<UserProfile> loadUserProfile() async {
+    Map data = await this._userProfileApiService.loadUserProfile();
+
+    return UserProfile.fromJson(data);
+  }
+
+  Future<void> updateUserProfile({@required UserProfile userProfile}) async {
+    return await this._userProfileApiService.updateUserProfile(
+          userProfile: userProfile,
+        );
   }
 }

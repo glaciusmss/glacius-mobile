@@ -4,16 +4,16 @@ import 'package:glacius_mobile/bloc/auth/auth.dart';
 import 'package:glacius_mobile/config/config.dart';
 import 'package:glacius_mobile/widgets/confirm_dialog.dart';
 
-class ProfilePage extends StatefulWidget {
+class AccountPage extends StatefulWidget {
   final AuthBloc authBloc;
 
-  ProfilePage({@required this.authBloc});
+  AccountPage({@required this.authBloc});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _AccountPageState createState() => _AccountPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +37,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         'title': 'My Account',
                         'settings': [
                           {
+                            'Account Profile':
+                                '/settings/account/account_profile'
+                          },
+                          {
                             'Change Password':
                                 '/settings/account/change_password',
-                          }
+                          },
                         ]
                       });
                     },

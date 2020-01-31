@@ -29,26 +29,26 @@ dependencies:
     git:
       url: https://github.com/pichillilorenzo/flutter_inappwebview.git
       ref: master
-  flutter_form_builder: ^3.7.2
-  pull_to_refresh: ^1.5.7
+  flutter_form_builder: ^3.7.3
+  pull_to_refresh: ^1.5.8
   flutter_icons: ^1.0.0+1
   titled_navigation_bar: ^3.6.0
   cached_network_image: ^2.0.0-rc
   copy_with_extension: ^1.0.7
   firebase_messaging: ^6.0.9
   package_info: ^0.4.0+13
-  image_picker: ^0.6.2+3
+  image_picker: ^0.6.3+1
   laravel_echo:
     git:
       url: https://github.com/heywhy/echo
-  basic_utils: ^2.4.4
-  photo_view: ^0.9.0
-  equatable: ^1.0.1
+  basic_utils: ^2.4.8
+  photo_view: ^0.9.1
+  equatable: ^1.0.2
   uni_links: ^0.2.0
   pedantic: ^1.8.0
   shimmer: ^1.0.1
   dio: ^3.0.8
-  intl: ^0.15.8
+  intl: ^0.16.1
   uuid: ^2.0.4
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glacius_mobile/bloc/bloc.dart';
-import 'package:glacius_mobile/views/profile/profile.dart';
+import 'package:glacius_mobile/views/account/account.dart';
 
-class ProfilePageBuilder extends StatelessWidget {
+class AccountPageBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _BindBlocProvider(
@@ -39,7 +39,7 @@ class _InjectBlocListener extends StatelessWidget {
 class _InjectBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProfilePage(
+    return AccountPage(
       authBloc: BlocProvider.of<AuthBloc>(context),
     );
   }
