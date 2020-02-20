@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:glacius_mobile/bloc/auth/auth.dart';
 import 'package:glacius_mobile/bloc/bloc.dart';
 import 'package:glacius_mobile/bloc/universal_link/universal_link.dart';
@@ -12,8 +11,7 @@ import 'package:glacius_mobile/utils/utils.dart';
 import 'bloc/shop/shop_bloc.dart';
 
 Future main() async {
-  await DotEnv().load('.env');
-  await Application.loadPackageInfo();
+  await Application.load();
   BlocSupervisor.delegate = LogBlocDelegate();
 
   runApp(

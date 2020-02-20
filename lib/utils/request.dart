@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:glacius_mobile/config/config.dart';
 import 'package:glacius_mobile/exceptions/http_error_exception.dart';
 import 'package:glacius_mobile/models/models.dart';
 
@@ -11,15 +12,7 @@ class Request {
   Dio client;
 
   Request._constructor() {
-    this.client = Dio(
-      BaseOptions(
-        baseUrl: DotEnv().env['APP_URL'],
-        headers: {'X-REQUEST-FROM': 'mobile'},
-      ),
-    );
-
-    _addLogInterceptors();
-    _addErrorFormattingInterceptors();
+    createDioClient();
   }
 
   factory Request() => _instance;
@@ -80,7 +73,7 @@ class Request {
             generalError = GeneralError.fromJson(response);
           } else {
             generalError = GeneralError(
-              message: error.toString(),
+              message: error.message,
               statusCode: 400,
             );
           }
@@ -89,5 +82,17 @@ class Request {
         },
       ),
     );
+  }
+
+  createDioClient() {
+    this.client = Dio(
+      BaseOptions(
+        baseUrl: Application.baseUrl,
+        headers: {'X-REQUEST-FROM': 'mobile'},
+      ),
+    );
+
+    _addLogInterceptors();
+    _addErrorFormattingInterceptors();
   }
 }

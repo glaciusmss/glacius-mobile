@@ -19,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^3.1.0
+  flutter_bloc: ^3.2.0
   flutter_dotenv: ^2.1.0
   flutter_secure_storage: ^3.3.1+1
   flutter_pusher_client:
@@ -29,21 +29,22 @@ dependencies:
     git:
       url: https://github.com/pichillilorenzo/flutter_inappwebview.git
       ref: master
-  flutter_form_builder: ^3.7.3
+  flutter_form_builder: ^3.8.0+1
   pull_to_refresh: ^1.5.8
   flutter_icons: ^1.0.0+1
   titled_navigation_bar: ^3.6.0
   cached_network_image: ^2.0.0-rc
   copy_with_extension: ^1.0.7
+  shared_preferences: ^0.5.6+1
   firebase_messaging: ^6.0.9
   package_info: ^0.4.0+13
   image_picker: ^0.6.3+1
   laravel_echo:
     git:
       url: https://github.com/heywhy/echo
-  basic_utils: ^2.4.8
-  photo_view: ^0.9.1
-  equatable: ^1.0.2
+  basic_utils: ^2.5.0
+  photo_view: ^0.9.2
+  equatable: ^1.1.0
   uni_links: ^0.2.0
   pedantic: ^1.8.0
   shimmer: ^1.0.1
