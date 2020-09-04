@@ -13,7 +13,6 @@ class OrderPage extends StatefulWidget {
   final WebsocketBloc websocketBloc;
   final ShopBloc shopBloc;
   final OrderBloc orderBloc;
-  String channelName;
 
   OrderPage({
     @required this.websocketBloc,
@@ -27,12 +26,13 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   RefreshController _refreshController = RefreshController();
+  String channelName;
 
   @override
   void initState() {
     super.initState();
 
-    widget.channelName =
+    channelName =
         'App.Shop.' + widget.shopBloc.getMyShop().id.toString();
 
     if (widget.orderBloc.state is! OrdersLoaded) {
@@ -41,7 +41,7 @@ class _OrderPageState extends State<OrderPage> {
 
     if (widget.websocketBloc.state is WebsocketReady) {
       widget.websocketBloc.add(ConnectPrivateChannel(
-        channelName: widget.channelName,
+        channelName: channelName,
         notificationListener: (Map<String, dynamic> data) {
           widget.orderBloc.add(
             StoreOrder(
@@ -55,7 +55,7 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   void dispose() {
-    widget.websocketBloc.add(LeaveChannel(channelName: widget.channelName));
+    widget.websocketBloc.add(LeaveChannel(channelName: channelName));
     _refreshController.dispose();
 
     super.dispose();

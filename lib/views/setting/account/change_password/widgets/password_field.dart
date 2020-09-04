@@ -8,7 +8,6 @@ class PasswordField extends StatefulWidget {
   final String requiredErrorText;
   final TextEditingController controller;
   final List<FormFieldValidator> validators;
-  List<FormFieldValidator> mergedValidators;
 
   PasswordField({
     @required this.attribute,
@@ -25,6 +24,7 @@ class PasswordField extends StatefulWidget {
 
 class _PasswordFieldState extends State<PasswordField> {
   bool isPasswordFieldHidden = true;
+  List<FormFieldValidator> mergedValidators;
 
   _showOrHidePasswordField() {
     setState(() {
@@ -36,14 +36,14 @@ class _PasswordFieldState extends State<PasswordField> {
   void initState() {
     super.initState();
 
-    widget.mergedValidators = [
+    mergedValidators = [
       FormBuilderValidators.required(
         errorText: widget.requiredErrorText,
       )
     ];
 
     if (widget.validators != null) {
-      widget.mergedValidators.addAll(widget.validators);
+      mergedValidators.addAll(widget.validators);
     }
   }
 
@@ -52,7 +52,7 @@ class _PasswordFieldState extends State<PasswordField> {
     return FormBuilderTextField(
       attribute: widget.attribute,
       controller: widget.controller,
-      validators: widget.mergedValidators,
+      validators: mergedValidators,
       maxLines: 1,
       obscureText: isPasswordFieldHidden,
       decoration: InputDecoration(

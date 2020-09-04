@@ -9,7 +9,7 @@ class TextDialog extends StatelessWidget {
   final Function(String) onConfirmPressed;
   final Color confirmBtnColor;
   final String confirmBtnText;
-  TextEditingController textEditingController;
+  final TextEditingController textEditingController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextDialog({

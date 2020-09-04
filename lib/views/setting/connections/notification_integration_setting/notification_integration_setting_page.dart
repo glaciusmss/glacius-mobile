@@ -59,6 +59,17 @@ class _NotificationIntegrationSettingPageState
                         )
                       : _skeletonButton(),
                 ),
+                ListTile(
+                  title: Text('facebook'),
+                  trailing: (state is NotificationIntegrationSettingLoaded)
+                      ? EnableDisableButton(
+                          notificationChannelBloc:
+                              widget.notificationChannelBloc,
+                          integrations: state.integrations,
+                          notificationChannel: 'facebook',
+                        )
+                      : _skeletonButton(),
+                ),
               ],
             ),
           ),

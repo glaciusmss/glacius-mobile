@@ -335,10 +335,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1ac9a7b2c21fcbb44390866069b27b046493ef1e"
+      resolved-ref: bdf4b1e6c87c4e9688d41c389f764b4570cd0e21
       url: "https://github.com/lkloon123/flutter-pusher-client"
     source: git
-    version: "0.1.1"
+    version: "0.2.0"
   flutter_secure_storage:
     dependency: "direct main"
     description:
