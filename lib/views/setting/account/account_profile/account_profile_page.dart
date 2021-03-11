@@ -5,7 +5,6 @@ import 'package:glacius_mobile/models/models.dart';
 import 'package:glacius_mobile/utils/utils.dart';
 import 'package:glacius_mobile/views/setting/account/account_profile/account_profile.dart';
 import 'package:glacius_mobile/widgets/widgets.dart';
-import 'package:intl/intl.dart';
 
 import 'bloc/bloc.dart';
 
@@ -55,7 +54,7 @@ class _AccountProfilePageState extends State<AccountProfilePage> {
                   padding: EdgeInsets.all(20.0),
                   child: FormBuilder(
                     key: _fbKey,
-                    autovalidate: true,
+                    autovalidateMode: AutovalidateMode.always,
                     initialValue: {
                       FormAttribute.phone: state.userProfile.phoneNumber,
                       FormAttribute.dob: state.userProfile.dateOfBirth != null
@@ -72,7 +71,7 @@ class _AccountProfilePageState extends State<AccountProfilePage> {
                           ErrorPanel(errorTxt: state.error.toString()),
                         SizedBox(height: 15.0),
                         FormBuilderTextField(
-                          attribute: FormAttribute.phone,
+                          name: FormAttribute.phone,
                           maxLines: 1,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(15.0),
@@ -82,21 +81,21 @@ class _AccountProfilePageState extends State<AccountProfilePage> {
                           ),
                         ),
                         SizedBox(height: 15.0),
-                        FormBuilderDateTimePicker(
-                          attribute: FormAttribute.dob,
-                          inputType: InputType.date,
-                          format: DateFormat('yyyy-MM-dd'),
-                          lastDate: DateTime(now.year - 18, now.month, now.day),
-                          resetIcon: null,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(15.0),
-                            border: OutlineInputBorder(),
-                            labelText: 'Birthday',
-                          ),
-                        ),
-                        SizedBox(height: 15.0),
+                        // FormBuilderDateTimePicker(
+                        //   attribute: FormAttribute.dob,
+                        //   inputType: InputType.date,
+                        //   format: DateFormat('yyyy-MM-dd'),
+                        //   lastDate: DateTime(now.year - 18, now.month, now.day),
+                        //   resetIcon: null,
+                        //   decoration: InputDecoration(
+                        //     contentPadding: EdgeInsets.all(15.0),
+                        //     border: OutlineInputBorder(),
+                        //     labelText: 'Birthday',
+                        //   ),
+                        // ),
+                        // SizedBox(height: 15.0),
                         FormBuilderSegmentedControl(
-                          attribute: FormAttribute.gender,
+                          name: FormAttribute.gender,
                           pressedColor:
                               Theme.of(context).primaryColor.withOpacity(0.2),
                           decoration: InputDecoration(
@@ -104,8 +103,8 @@ class _AccountProfilePageState extends State<AccountProfilePage> {
                             labelText: 'Gender',
                           ),
                           options: <FormBuilderFieldOption>[
-                            FormBuilderFieldOption(value: '0', label: 'Male'),
-                            FormBuilderFieldOption(value: '1', label: 'Female'),
+                            FormBuilderFieldOption(value: '0', child: Text('Male')),
+                            FormBuilderFieldOption(value: '1', child: Text('Female')),
                           ],
                         )
                       ],

@@ -15,7 +15,8 @@ class ImageApiService {
     CancelToken cancelToken,
   }) async {
     Response res = await this._request.client.get(
-          '/image/' + image,
+          '/image',
+          queryParameters: {'filename': image},
           cancelToken: cancelToken,
         );
 

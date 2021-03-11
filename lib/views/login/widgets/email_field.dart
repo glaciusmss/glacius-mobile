@@ -6,13 +6,14 @@ class EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
-      attribute: "email",
-      validators: [
+      name: "email",
+      validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(
+          context,
           errorText: 'Email field cannot be empty',
         ),
-        FormBuilderValidators.email(),
-      ],
+        FormBuilderValidators.email(context),
+      ]),
       keyboardType: TextInputType.emailAddress,
       textAlign: TextAlign.left,
       style: TextStyle(

@@ -7,7 +7,7 @@ mixin FormHelper<T extends StatefulWidget> on State<T> {
       return null;
     }
 
-    return form.currentState.fields[field].currentState.value;
+    return form.currentState.fields[field].formState.value;
   }
 
   void setFormValue(
@@ -20,7 +20,7 @@ mixin FormHelper<T extends StatefulWidget> on State<T> {
     }
 
     setState(() {
-      form.currentState.setAttributeValue(field, value);
+      form.currentState.setInternalFieldValue(field, value);
     });
   }
 }

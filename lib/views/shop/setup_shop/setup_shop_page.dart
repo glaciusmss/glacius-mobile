@@ -31,7 +31,7 @@ class _SetupShopPageState extends State<SetupShopPage> {
                 padding: EdgeInsets.all(20.0),
                 child: FormBuilder(
                   key: _fbKey,
-                  autovalidate: true,
+                  autovalidateMode: AutovalidateMode.always,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -50,10 +50,14 @@ class _SetupShopPageState extends State<SetupShopPage> {
                       SizedBox(height: 15.0),
                       SizedBox(
                         width: 120,
-                        child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          child: Text("Let's Go"),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor,
+                          ),
+                          child: Text(
+                            "Let's Go",
+                            style: TextStyle(color: Colors.white),
+                          ),
                           onPressed: _createShop,
                         ),
                       ),
@@ -81,12 +85,13 @@ class _SetupShopPageState extends State<SetupShopPage> {
 
   Widget _nameField() {
     return FormBuilderTextField(
-      attribute: 'name',
-      validators: [
+      name: 'name',
+      validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(
+          context,
           errorText: 'Shop name field cannot be empty',
         ),
-      ],
+      ]),
       maxLines: 1,
       decoration: InputDecoration(
         hintText: 'Your new shop name',
@@ -99,12 +104,13 @@ class _SetupShopPageState extends State<SetupShopPage> {
 
   Widget _descriptionField() {
     return FormBuilderTextField(
-      attribute: 'description',
-      validators: [
+      name: 'description',
+      validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(
+          context,
           errorText: 'Description field cannot be empty',
         ),
-      ],
+      ]),
       maxLines: 3,
       decoration: InputDecoration(
         hintText: 'A wallet shop',

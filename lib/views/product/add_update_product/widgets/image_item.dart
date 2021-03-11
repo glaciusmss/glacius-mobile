@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +105,7 @@ class _ImageItemState extends State<ImageItem> {
       return Opacity(
         opacity: _isLocalImageUploaded() ? 1.0 : 0.3,
         child: Image.file(
-          widget.image.tempImage,
+          File(widget.image.tempImage.path),
           fit: BoxFit.fill,
           height: widget.height,
           width: widget.width,
@@ -159,7 +161,8 @@ class _ImageItemState extends State<ImageItem> {
       );
 
       widget.onNetworkImageLoaded(image.copyWith(tag: widget.image.tag));
-    } catch (error) {
+    } catch (error, stacktrace) {
+      print(stacktrace);
       //TODO: handle image load error
     }
   }

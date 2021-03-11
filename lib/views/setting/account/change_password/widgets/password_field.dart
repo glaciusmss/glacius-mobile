@@ -38,6 +38,7 @@ class _PasswordFieldState extends State<PasswordField> {
 
     mergedValidators = [
       FormBuilderValidators.required(
+        context,
         errorText: widget.requiredErrorText,
       )
     ];
@@ -50,9 +51,9 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
-      attribute: widget.attribute,
+      name: widget.attribute,
       controller: widget.controller,
-      validators: mergedValidators,
+      validator: FormBuilderValidators.compose(mergedValidators),
       maxLines: 1,
       obscureText: isPasswordFieldHidden,
       decoration: InputDecoration(

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -7,6 +6,7 @@ import 'package:glacius_mobile/models/models.dart' as model;
 import 'package:glacius_mobile/views/product/add_update_product/add_update_product.dart';
 import 'package:glacius_mobile/views/product/add_update_product/widgets/widgets.dart';
 import 'package:glacius_mobile/widgets/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 class ImageField extends StatefulWidget {
@@ -38,9 +38,8 @@ class _ImageFieldState extends State<ImageField> {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderCustomField(
-      attribute: FormAttribute.images,
-      formField: FormField(
+    return FormBuilderField(
+      name: FormAttribute.images,
         builder: (FormFieldState fieldState) {
           return Container(
             height: 80.0,
@@ -50,7 +49,6 @@ class _ImageFieldState extends State<ImageField> {
             ),
           );
         },
-      ),
     );
   }
 
@@ -127,7 +125,7 @@ class _ImageFieldState extends State<ImageField> {
     );
   }
 
-  void _addNewImageToState(File newImage) {
+  void _addNewImageToState(PickedFile newImage) {
     model.Image image = model.Image(
       name: newImage.path.split('/').last,
       tempImage: newImage,

@@ -12,7 +12,8 @@
         android:label="GlaciusMSS"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
-        android:fullBackupContent="false">
+        android:fullBackupContent="false"
+        android:usesCleartextTraffic="true"><!-- remove this for production, this enable http on local env -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"

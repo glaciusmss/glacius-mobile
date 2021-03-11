@@ -33,12 +33,10 @@ class TextDialog extends StatelessWidget {
       title: title,
       content: Form(
         key: _formKey,
-        autovalidate: true,
+        autovalidateMode: AutovalidateMode.always,
         child: TextFormField(
           controller: textEditingController,
-          validator: formValidator != null
-              ? formValidator
-              : (value) => null,
+          validator: formValidator != null ? formValidator : (value) => null,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -50,17 +48,22 @@ class TextDialog extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        FlatButton(
-          textColor: confirmBtnColor != null
-              ? confirmBtnColor
-              : Theme.of(context).primaryColor,
-          child: Text(confirmBtnText),
+        TextButton(
+          child: Text(
+            confirmBtnText,
+            style: TextStyle(
+              color: confirmBtnColor != null
+                  ? confirmBtnColor
+                  : Theme.of(context).primaryColor,
+            ),
+          ),
           onPressed: () async {
             bool shouldClose = true;
 
             if (_formKey.currentState.validate()) {
               if (onConfirmPressed != null) {
-                shouldClose = await onConfirmPressed(textEditingController.text);
+                shouldClose =
+                    await onConfirmPressed(textEditingController.text);
               }
 
               if (shouldClose == true || shouldClose == null) {

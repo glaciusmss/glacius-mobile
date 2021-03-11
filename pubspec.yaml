@@ -1,5 +1,7 @@
 name: glacius_mobile
 description: Mobile client for Glacius MSS
+# delete this line when push to pub.dev
+publish_to: none
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -29,8 +31,9 @@ dependencies:
     git:
       url: https://github.com/pichillilorenzo/flutter_inappwebview.git
       ref: master
-  flutter_form_builder: ^3.8.0+1
-  pull_to_refresh: ^1.5.8
+  flutter_form_builder:
+    git: https://github.com/Sportner/flutter_form_builder.git
+  pull_to_refresh: ^1.6.4
   flutter_icons: ^1.0.0+1
   titled_navigation_bar: ^3.6.0
   cached_network_image: ^2.0.0-rc
@@ -49,7 +52,6 @@ dependencies:
   pedantic: ^1.8.0
   shimmer: ^1.0.1
   dio: ^3.0.8
-  intl: ^0.16.1
   uuid: ^2.0.4
 
   # The following adds the Cupertino Icons font to your application.

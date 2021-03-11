@@ -44,7 +44,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               padding: EdgeInsets.all(20.0),
               child: FormBuilder(
                 key: _fbKey,
-                autovalidate: true,
+                autovalidateMode: AutovalidateMode.always,
                 child: Column(
                   children: <Widget>[
                     _oldPasswordField(),

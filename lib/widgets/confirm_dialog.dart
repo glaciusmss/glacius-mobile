@@ -30,11 +30,15 @@ class ConfirmDialog extends StatelessWidget {
       title: title,
       content: content,
       actions: <Widget>[
-        FlatButton(
-          textColor: cancelBtnColor != null
-              ? cancelBtnColor
-              : Theme.of(context).accentColor,
-          child: Text(cancelBtnText),
+        TextButton(
+          child: Text(
+            cancelBtnText,
+            style: TextStyle(
+              color: cancelBtnColor != null
+                  ? cancelBtnColor
+                  : Theme.of(context).accentColor,
+            ),
+          ),
           onPressed: () {
             bool shouldClose = true;
 
@@ -47,11 +51,15 @@ class ConfirmDialog extends StatelessWidget {
             }
           },
         ),
-        FlatButton(
-          textColor: confirmBtnColor != null
-              ? confirmBtnColor
-              : Theme.of(context).primaryColor,
-          child: Text(confirmBtnText),
+        TextButton(
+          child: Text(
+            confirmBtnText,
+            style: TextStyle(
+              color: confirmBtnColor != null
+                  ? confirmBtnColor
+                  : Theme.of(context).primaryColor,
+            ),
+          ),
           onPressed: () {
             bool shouldClose = true;
 

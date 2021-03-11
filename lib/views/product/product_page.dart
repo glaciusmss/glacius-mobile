@@ -84,7 +84,7 @@ class _ProductPageState extends State<ProductPage> {
     );
 
     if (result != null) {
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('$result'),
         ),

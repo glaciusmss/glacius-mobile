@@ -43,9 +43,11 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
       },
       child: BlocBuilder<OAuthBloc, OAuthState>(
         builder: (context, state) {
-          return RaisedButton(
-            color:
-                _isMarketplaceEnabled() ? Theme.of(context).errorColor : null,
+          return ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary:
+                  _isMarketplaceEnabled() ? Theme.of(context).errorColor : null,
+            ),
             onPressed: (state is OAuthUpdating) ? null : _onPressed,
             child: buttonText(context),
           );
@@ -114,11 +116,12 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
               return ConfirmDialog(
                 content: FormBuilder(
                   key: _fbKey,
-                  autovalidate: true,
+                  autovalidateMode: AutovalidateMode.always,
                   child: FormBuilderTextField(
-                    attribute: widget.requiredFieldOnConnect,
-                    validators: [FormBuilderValidators.required()],
-                    autovalidate: true,
+                    name: widget.requiredFieldOnConnect,
+                    validator: FormBuilderValidators.compose(
+                        [FormBuilderValidators.required(context)]),
+                    autovalidateMode: AutovalidateMode.always,
                     decoration: InputDecoration(
                       labelText: widget.requiredFieldTitle,
                     ),

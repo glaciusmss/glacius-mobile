@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:glacius_mobile/models/models.dart' as model;
 import 'package:photo_view/photo_view.dart';
@@ -78,7 +80,7 @@ class _ImagePreviewState extends State<ImagePreview> {
               builder: (context, index) {
                 return PhotoViewGalleryPageOptions(
                   imageProvider: widget.images[index].url == null
-                      ? FileImage(widget.images[index].tempImage)
+                      ? FileImage(File(widget.images[index].tempImage.path))
                       : NetworkImage(widget.images[index].url),
                   initialScale: PhotoViewComputedScale.contained,
                   minScale: PhotoViewComputedScale.contained,

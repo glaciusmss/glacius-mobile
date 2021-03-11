@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:glacius_mobile/utils/utils.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'image.g.dart';
@@ -18,7 +19,7 @@ class Image extends Equatable {
   final String fileName;
   final String collection;
   @JsonKey(ignore: true)
-  final File tempImage; //for temp img to be upload
+  final PickedFile tempImage; //for temp img to be upload
   @JsonKey(ignore: true)
   final String tag; //uuid for hero widget
 

@@ -30,7 +30,7 @@ class _SettingPageState extends State<SettingPage> {
                 final result = await Navigator.pushNamed(context, itemPath);
 
                 if (result != null) {
-                  Scaffold.of(context).showSnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('$result'),
                     ),

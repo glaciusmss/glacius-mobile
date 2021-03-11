@@ -102,7 +102,7 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
             ),
             body: FormBuilder(
               key: _fbKey,
-              autovalidate: true,
+              autovalidateMode: AutovalidateMode.always,
               initialValue: {
                 FormAttribute.name: widget.selectedProduct?.name,
                 FormAttribute.description:
@@ -152,11 +152,11 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
             ),
             SizedBox(height: 20.0),
             FormBuilderTextField(
-              attribute: FormAttribute.stock,
-              validators: [
-                FormBuilderValidators.numeric(),
-                FormBuilderValidators.min(0),
-              ],
+              name: FormAttribute.stock,
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.numeric(context),
+                FormBuilderValidators.min(context, 0),
+              ]),
               focusNode: _stockFocusNode,
               keyboardType: TextInputType.number,
               maxLines: 1,
@@ -190,12 +190,12 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
             ),
             SizedBox(height: 20.0),
             FormBuilderTextField(
-              attribute: FormAttribute.price,
-              validators: [
-                FormBuilderValidators.required(),
-                FormBuilderValidators.numeric(),
-                FormBuilderValidators.min(0.01),
-              ],
+              name: FormAttribute.price,
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.required(context),
+                FormBuilderValidators.numeric(context),
+                FormBuilderValidators.min(context, 0.01),
+              ]),
               focusNode: _priceFocusNode,
               keyboardType: TextInputType.number,
               maxLines: 1,
@@ -258,8 +258,8 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
             ),
             SizedBox(height: 20.0),
             FormBuilderTextField(
-              attribute: FormAttribute.name,
-              validators: [FormBuilderValidators.required()],
+              name: FormAttribute.name,
+              validator: FormBuilderValidators.compose([FormBuilderValidators.required(context)]),
               focusNode: _nameFocusNode,
               maxLines: 1,
               decoration: InputDecoration(
@@ -271,8 +271,8 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
             ),
             SizedBox(height: 15.0),
             FormBuilderTextField(
-              attribute: FormAttribute.description,
-              validators: [FormBuilderValidators.required()],
+              name: FormAttribute.description,
+              validator: FormBuilderValidators.compose([FormBuilderValidators.required(context)]),
               focusNode: _descriptionFocusNode,
               maxLines: 3,
               decoration: InputDecoration(

@@ -32,7 +32,7 @@ class _PasswordField extends State<PasswordField> {
     }
 
     return widget
-        ._fbKey.currentState.fields['password']?.currentState?.errorText;
+        ._fbKey.currentState.fields['password']?.errorText;
   }
 
   @override
@@ -40,12 +40,13 @@ class _PasswordField extends State<PasswordField> {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         return FormBuilderTextField(
-          attribute: 'password',
-          validators: [
+          name: 'password',
+          validator: FormBuilderValidators.compose([
             FormBuilderValidators.required(
+              context,
               errorText: 'Password field cannot be empty',
             ),
-          ],
+          ]),
           onChanged: (value) {
             if (state is LoginFailure) {
               widget.loginBloc.add(ResetLoginBloc());

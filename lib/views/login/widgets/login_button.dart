@@ -36,15 +36,17 @@ class _LoginButtonState extends State<LoginButton> {
       builder: (context, state) {
         return SizedBox(
           width: double.infinity,
-          child: RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: EdgeInsets.symmetric(
+                vertical: (state is LoginSubmitting) ? 10.0 : 20.0,
+                horizontal: 20.0,
+              ),
+              primary: Theme.of(context).primaryColor,
             ),
-            padding: EdgeInsets.symmetric(
-              vertical: (state is LoginSubmitting) ? 10.0 : 20.0,
-              horizontal: 20.0,
-            ),
-            color: Theme.of(context).primaryColor,
             onPressed: (state is LoginSubmitting) ? null : _login,
             child: (state is LoginSubmitting)
                 ? Spinner.configured(

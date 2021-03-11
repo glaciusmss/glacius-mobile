@@ -63,7 +63,7 @@ class Request {
     }
   }
 
-  _addErrorFormattingInterceptors({Interceptor errorFormattingInterceptor}) {
+  _addErrorFormattingInterceptors() {
     client.interceptors.add(
       InterceptorsWrapper(
         onError: (DioError error) {

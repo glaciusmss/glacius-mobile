@@ -37,10 +37,12 @@ class _EnableDisableButtonState extends State<EnableDisableButton> {
       },
       child: BlocBuilder<NotificationChannelBloc, NotificationChannelState>(
         builder: (context, state) {
-          return RaisedButton(
-            color: _isNotificationChannelEnabled()
-                ? Theme.of(context).errorColor
-                : null,
+          return ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: _isNotificationChannelEnabled()
+                  ? Theme.of(context).errorColor
+                  : null,
+            ),
             onPressed:
                 (state is NotificationChannelUpdating) ? null : _onPressed,
             child: buttonText(context),
